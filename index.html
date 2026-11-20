@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Backend & AI Engineer: путь до оффера</title>
+<style>
+:root{--b:#2563eb;--line:#e5e7eb;--mut:#6b7280;--txt:#111827;--bg:#f9fafb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.55 Inter,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:30px;line-height:1.2;margin:0 0 10px;letter-spacing:-.02em}
+.lead{color:var(--mut);max-width:760px;margin:0 0 24px}
+.prog{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+.prog b{font-weight:600}
+.bar{flex:1;min-width:160px;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--b);transition:width .25s}
+button{font:inherit;cursor:pointer}
+.reset{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;color:var(--mut)}
+.reset:hover{color:var(--txt);border-color:#cbd5e1}
+nav{display:flex;gap:6px;overflow-x:auto;padding:20px 0 12px;scrollbar-width:thin}
+.tab{flex:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;color:var(--txt);white-space:nowrap}
+.tab span{color:var(--mut);margin-left:6px;font-size:13px}
+.tab.on{background:var(--b);border-color:var(--b);color:#fff}
+.tab.on span{color:#dbeafe}
+.tab.sep{margin-left:14px}
+.stage{font-size:13px;color:var(--b);font-weight:600;margin:12px 0 4px}
+h2{font-size:22px;margin:0 0 6px}
+.goal{color:var(--mut);margin:0 0 18px;max-width:820px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.row{display:grid;grid-template-columns:110px 1fr 1fr;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.hd{background:#f3f4f6;font-weight:600;font-size:13px;color:var(--mut)}
+.row>div{padding:14px 16px}
+.row>div+div{border-left:1px solid var(--line)}
+.day{font-weight:600}.day small{display:block;color:var(--mut);font-weight:400}
+.row.proj{grid-template-columns:110px 1fr}
+.item{display:flex;gap:10px;align-items:flex-start}
+.item input{margin-top:5px;width:16px;height:16px;accent-color:var(--b);flex:none;cursor:pointer}
+.item.done .tt{color:var(--mut);text-decoration:line-through}
+.tt{font-weight:600}
+.kw{color:var(--mut);font-size:13.5px;margin-top:2px}
+.ln{margin-top:6px;font-size:13.5px;display:flex;flex-wrap:wrap;gap:4px 12px}
+a{color:var(--b);text-decoration:none}a:hover{text-decoration:underline}
+.sec{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:14px}
+.sec h3{margin:0 0 10px;font-size:17px}
+.sec ul{margin:0;padding-left:20px}.sec li{margin:5px 0}
+@media(max-width:760px){.row,.row.proj{grid-template-columns:1fr}.row>div+div{border-left:0;border-top:1px dashed var(--line)}.hd{display:none}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Python Backend &amp; AI Engineer: путь до оффера</h1>
+<p class="lead" id="lead"></p>
+<div class="prog"><span id="ptxt"></span><div class="bar"><i id="pbar"></i></div><button class="reset" id="rst">Сбросить отметки</button></div>
+<nav id="nav"></nav>
+<main id="main"></main>
+</div>
+<script>
+// ---------- ссылки ----------
+const L={
+pyt:["Python Tutorial (ru)","https://docs.python.org/ru/3/tutorial/"],
+pylib:["Стандартная библиотека","https://docs.python.org/3/library/"],
+pyref:["Python Data Model","https://docs.python.org/3/reference/datamodel.html"],
+st67:["Stepik: Программирование на Python","https://stepik.org/course/67/"],
+st512:["Stepik: Python — основы и применение","https://stepik.org/course/512/"],
+rp:["Real Python","https://realpython.com/"],
+pyttr:["Python Tutor (визуализация)","https://pythontutor.com/"],
+pw:["Pythonworld.ru (ru)","https://pythonworld.ru/samouchitel-python"],
+w3:["W3Schools Python","https://www.w3schools.com/python/"],
+uv:["uv (docs)","https://docs.astral.sh/uv/"],
+lj:["Linux Journey","https://linuxjourney.com/"],
+git:["Pro Git (ru)","https://git-scm.com/book/ru/v2"],
+lgb:["Learn Git Branching","https://learngitbranching.js.org/?locale=ru_RU"],
+lc:["LeetCode","https://leetcode.com/problemset/"],
+nc:["NeetCode roadmap","https://neetcode.io/roadmap"],
+bigo:["Big-O cheat sheet","https://www.bigocheatsheet.com/"],
+fl:["Fluent Python (книга)","https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/"],
+typ:["typing docs","https://docs.python.org/3/library/typing.html"],
+mypy:["mypy docs","https://mypy.readthedocs.io/"],
+aio:["asyncio docs","https://docs.python.org/3/library/asyncio.html"],
+httpx:["httpx","https://www.python-httpx.org/"],
+pt:["pytest docs","https://docs.pytest.org/"],
+mdn:["MDN: HTTP","https://developer.mozilla.org/ru/docs/Web/HTTP"],
+fa:["FastAPI (ru)","https://fastapi.tiangolo.com/ru/"],
+pyd:["Pydantic v2","https://docs.pydantic.dev/latest/"],
+pg:["PostgreSQL Tutorial","https://www.postgresql.org/docs/current/tutorial.html"],
+sqlex:["SQL-EX (ru)","https://sql-ex.ru/"],
+pgex:["PG Exercises","https://pgexercises.com/"],
+sqla:["SQLAlchemy 2.0 Tutorial","https://docs.sqlalchemy.org/en/20/tutorial/"],
+alem:["Alembic","https://alembic.sqlalchemy.org/"],
+jwt:["jwt.io Introduction","https://jwt.io/introduction"],
+owasp:["OWASP Top 10","https://owasp.org/www-project-top-ten/"],
+redis:["Redis docs","https://redis.io/docs/"],
+dock:["Docker Get Started","https://docs.docker.com/get-started/"],
+gha:["GitHub Actions","https://docs.github.com/en/actions"],
+f12:["12 Factor App (ru)","https://12factor.net/ru/"],
+oai:["OpenAI API docs","https://platform.openai.com/docs"],
+ant:["Anthropic docs","https://docs.anthropic.com/"],
+antt:["Anthropic: Tool use","https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview"],
+orr:["OpenRouter docs","https://openrouter.ai/docs"],
+pe:["Prompting Guide (ru)","https://www.promptingguide.ai/ru"],
+pgv:["pgvector","https://github.com/pgvector/pgvector"],
+qd:["Qdrant docs","https://qdrant.tech/documentation/"],
+lc2:["LangChain docs","https://python.langchain.com/docs/"],
+lg:["LangGraph docs","https://langchain-ai.github.io/langgraph/"],
+ragas:["Ragas","https://docs.ragas.io/"],
+lf:["Langfuse","https://langfuse.com/docs"],
+rm:["roadmap.sh/backend","https://roadmap.sh/backend"],
+cc:["Anthropic: Building effective agents","https://www.anthropic.com/engineering/building-effective-agents"]
+};
+// ---------- программа: d = 5 будних дней [тема, ключевые понятия, [ссылки], практика]; p = [Сб, Вс] ----------
+const W=[
+{s:"Этап 1 · Python с нуля",t:"Старт: окружение, переменные, числа, ввод-вывод",g:"Настроить среду и заново вспомнить самое базовое: переменные, типы, арифметику, input/print. Темп медленный, всё пишем руками.",
+d:[["Установка и терминал","Python 3.12, VS Code, терминал, cd/ls/mkdir, запуск скрипта, venv",["uv","lj","pyt"],"Установи Python и VS Code, создай папку проекта и hello.py, запусти из терминала, создай и активируй venv. Повтори всё без шпаргалки."],
+["Переменные и типы","переменные, int/float/str/bool, type(), имена, комментарии, присваивание",["pyt","pw","w3"],"15 мини-скриптов: переменные разных типов, обмен значений двух переменных, type() для каждого. Закрой текст и повтори по памяти."],
+["Числа и операторы","+ - * / // % **, приоритет, сравнения, round, math, int()/float()",["pyt","pyttr"],"Задачи: площадь и периметр, сумма цифр числа, чётное/нечётное, конвертер валют. Предскажи результат до запуска, потом проверь."],
+["Ввод и вывод","input, print(sep, end), f-строки, приведение типов, ошибки ValueError, чтение traceback",["pyt","w3"],"Мини-анкета: имя и возраст, вывод f-строкой. Намеренно вызови 5 разных ошибок и прочитай traceback своими словами."],
+["Git: основы","init/add/commit/status/log, .gitignore, GitHub, SSH-ключ",["git","lgb"],"Создай репозиторий на GitHub, 5 осмысленных коммитов, прочитай свой git log и diff."]],
+p:["Проект «Конвертер единиц» (CLI): температура, длина, вес, меню выбора. Только руками, без ИИ-генерации.","Доработай конвертер, добавь README и коммиты. Создай cheatsheet.md: синтаксис недели своими словами и примеры."]},
+{s:"Этап 1 · Python с нуля",t:"Строки, условия, циклы",g:"Уверенно работать со строками, ветвлениями и циклами: это основа почти любой задачи.",
+d:[["Строки: индексы и срезы","индексы, отрицательные индексы, срезы [a:b:c], len, конкатенация, неизменяемость, escape",["pyt","pw","w3"],"15 задач: разворот строки, палиндром, каждый второй символ, первые и последние N символов. Пиши без подсказок."],
+["Методы строк и f-строки","upper/lower/strip/split/join/replace/find/startswith, форматирование :.2f, :>10",["pyt","rp"],"Нормализация ввода, подсчёт слов, чек магазина с выравниванием через f-строки."],
+["Условия и логика","if/elif/else, and/or/not, сравнения, in, truthy/falsy, тернарный оператор",["pyt","pyttr"],"Валидатор пароля, високосный год, оценка по баллам, существует ли треугольник. Начерти блок-схему на бумаге для одной задачи."],
+["Цикл while","условие, break/continue, счётчики, бесконечный цикл, меню в цикле",["pyt","w3"],"Сумма введённых чисел до 0, консольное меню в цикле, угадай число с подсказками."],
+["Цикл for и range","for по строке, range(start, stop, step), вложенные циклы, enumerate",["pyt","pyttr"],"Таблица умножения, фигуры из символов, FizzBuzz, простые числа до 100. Объясни вслух работу вложенного цикла."]],
+p:["Проект «Угадай число 2.0»: подсказки, счётчик попыток, режимы сложности, рекорд в памяти.","Проект «Анализатор текста»: слова, самое длинное слово, частота букв. Допиши cheatsheet.md по строкам и циклам."]},
+{s:"Этап 1 · Python с нуля",t:"Функции, первые коллекции, отладка",g:"Научиться дробить код на функции, работать со списками и словарями и искать ошибки самостоятельно.",
+d:[["Функции","def, параметры, return, None, docstring, assert",["pyt","st512","pw"],"Перепиши 5 задач прошлых недель в функции. Напиши 10 небольших функций с проверкой assert."],
+["Аргументы и область видимости","позиционные/именованные, default, *args, **kwargs, локальные и глобальные переменные",["pyt","rp"],"Воспроизведи ловушку изменяемого default-аргумента и объясни её. Напиши calc(*args)."],
+["Списки","создание, индексы, срезы, append/extend/pop/remove/sort, in, копирование и ссылки",["pyt","pyttr"],"15 задач: максимум без max, удаление дублей, разворот, слияние двух списков. Покажи на Python Tutor разницу copy и reference."],
+["Словари, множества, кортежи","dict get/items/keys/values, set-операции, распаковка tuple",["pyt","w3"],"Частотный словарь слов, телефонный справочник, пересечение двух множеств. Все решения напиши по памяти."],
+["Ошибки и отладка","traceback, SyntaxError/TypeError/NameError, try/except, print-отладка, breakpoint()",["pyt","pyttr"],"Подготовь 10 коротких скриптов с багами (сам заранее намеренно «сломай»), найди и исправь без ИИ."]],
+p:["Проект «Записная книжка»: CLI в памяти с функциями и словарём, команды add/find/delete/list.","Добавь сохранение в JSON (json.dump/load, подробнее на неделе 4), README. Итог: проверь cheatsheet.md и сдай себе мини-экзамен по базе."]},
+{s:"Этап 1 · Python",t:"Структуры данных и исключения",g:"Понимать устройство list/dict/set, оценивать сложность и работать с файлами и ошибками.",
+d:[["Коллекции: углублённое повторение","изменяемость, хэширование, методы, срезы, сложность операций",["pyt","bigo"],"Реализуй руками: подсчёт частот через dict, пересечение/разность множеств, rotate списка."],
+["Comprehensions и итерация","list/dict/set comprehension, zip, enumerate, sorted(key=), any/all",["pyt","rp"],"10 задач на comprehensions (LeetCode Easy: Two Sum, Valid Anagram, Contains Duplicate)."],
+["Файлы и исключения","open, with, pathlib, json, csv, try/except/else/finally, raise",["pyt","pylib"],"Парсер CSV → JSON отчёт с обработкой битых строк и собственным исключением."],
+["Модули и пакеты","import, __name__, пакеты, __init__, относительные импорты, структура проекта",["pyt","rp"],"Разбей Todo на модули: storage.py, models.py, cli.py. Запусти через python -m."],
+["Сложность и алгоритмы","Big-O, линейный/бинарный поиск, сортировки, стек/очередь, deque",["bigo","nc","lc"],"Реализуй бинарный поиск и сортировку выбором руками, затем Valid Parentheses и Binary Search на LeetCode."]],
+p:["Проект «Учёт расходов» (CLI): категории, отчёт по месяцам, хранение в JSON/CSV.","Дополни: фильтры, итоги по категориям, обработка ошибок, README. Реши 2 задачи LeetCode."]},
+{s:"Этап 1 · Python",t:"ООП",g:"Проектировать классы осознанно: когда наследование, когда композиция, как работают dunder-методы.",
+d:[["Классы и объекты","class, __init__, атрибуты класса и экземпляра, self, методы",["pyt","st512"],"Класс BankAccount с депозитом/снятием и исключением InsufficientFunds. Без ИИ."],
+["Dunder-методы и property","__repr__, __str__, __eq__, __lt__, __len__, @property, @classmethod, @staticmethod",["pyref","fl"],"Класс Vector2D с +, -, ==, abs, repr. Класс Temperature с property и валидацией."],
+["Наследование и композиция","super(), MRO, ABC, полиморфизм, «композиция вместо наследования»",["rp","pylib"],"Иерархия Shape (ABC) и обработчик списка фигур. Затем перепиши через композицию и сравни."],
+["dataclasses и enum","@dataclass, field, frozen, __post_init__, Enum, slots",["pylib","rp"],"Перепиши модели «Учёта расходов» на dataclass и Enum."],
+["Принципы SOLID, паттерны","SRP, OCP, DIP, Strategy, Factory, Repository",["rp","rm"],"Рефакторинг проекта: хранилище вынеси в интерфейс Repository, реализуй JsonRepo и MemoryRepo."]],
+p:["Проект «Библиотека»: книги, читатели, выдача, штрафы. Классы, ABC, хранение в JSON.","Добавь отчёты и поиск, README с описанием архитектуры. Нарисуй схему классов от руки."]},
+{s:"Этап 1 · Python",t:"Декораторы, генераторы, контекстные менеджеры",g:"Понимать «магию» Python: замыкания, итераторы и ленивые вычисления.",
+d:[["Функции как объекты, замыкания","first-class functions, nonlocal, lambda, partial, map/filter",["pyt","rp"],"Фабрика функций make_multiplier, счётчик через замыкание, сортировка по сложному ключу."],
+["Декораторы","@decorator, functools.wraps, декораторы с аргументами, класс-декоратор",["rp","fl"],"Напиши @timer, @retry(n), @cache, @log_calls без ИИ. Сравни с functools.lru_cache."],
+["Итераторы и генераторы","__iter__/__next__, yield, yield from, генераторные выражения, ленивость",["rp","pyref"],"Генератор чтения большого файла по строкам, генератор Фибоначчи, свой итератор диапазона."],
+["Контекстные менеджеры","with, __enter__/__exit__, contextlib.contextmanager",["pylib","rp"],"Менеджер таймера и менеджер временной директории. Менеджер транзакции для JSON-хранилища."],
+["functools и itertools","lru_cache, reduce, chain, groupby, product, islice, collections",["pylib","lc"],"5 задач LeetCode с использованием collections (Counter, defaultdict, deque)."]],
+p:["Мини-библиотека: набор своих декораторов (timer, retry, cache, rate_limit) с тестами-скриптами.","Лог-анализатор: генераторами обработай большой файл логов (генерируй сам) и построй отчёт."]},
+{s:"Этап 1 · Python",t:"Типизация, тесты, качество кода",g:"Писать код с аннотациями, тестами и линтерами, как в реальной команде.",
+d:[["Аннотации типов","typing, Optional, Union, list[int], Callable, TypedDict, Protocol, Generic",["typ","mypy"],"Добавь типы ко всем проектам, запусти mypy --strict и исправь ошибки."],
+["pytest: основы","assert, fixtures, parametrize, tmp_path, исключения",["pt","rp"],"Напиши 15 тестов для проекта «Библиотека»; покрытие через pytest-cov."],
+["Логирование и конфигурация","logging, уровни, handlers, env-переменные, python-dotenv",["pylib","f12"],"Замени print на logging, вынеси настройки в .env и dataclass-конфиг."],
+["Ruff, форматирование, pre-commit","PEP8, ruff, black, pre-commit, pyproject.toml",["uv","rp"],"Настрой pyproject.toml, ruff и pre-commit в одном из проектов."],
+["Git: ветки и PR","branch, merge, rebase, конфликты, Pull Request, conventional commits",["git","lgb"],"Создай ветку, вызови конфликт сам, разреши его, оформи PR на собственный репозиторий."]],
+p:["Доведи «Учёт расходов» до качества: типы, тесты ≥80%, ruff, README, pyproject.toml.","Оформи как устанавливаемый пакет (uv build), опубликуй репозиторий, добавь GitHub Actions с pytest."]},
+{s:"Этап 1 · Python",t:"asyncio и конкурентность",g:"Понимать event loop, отличать async от потоков и процессов, писать асинхронные клиенты.",
+d:[["Конкурентность и GIL","threading, multiprocessing, GIL, I/O-bound vs CPU-bound",["pylib","rp"],"Сравни время выполнения: последовательно / threads / processes для скачивания и для вычислений."],
+["asyncio: основы","event loop, async/await, coroutine, Task, gather, sleep",["aio","rp"],"10 имитаций запросов через asyncio.sleep, замер gather vs последовательно."],
+["Таймауты, ошибки, семафоры","wait_for, TaskGroup, Semaphore, Queue, cancel",["aio","rp"],"Producer/consumer на asyncio.Queue с ограничением параллелизма."],
+["httpx и async-клиенты","httpx.AsyncClient, retry, timeouts, JSON API",["httpx","mdn"],"Асинхронный сбор данных из 3 открытых API (погода, курсы, GitHub) с обработкой ошибок."],
+["Алгоритмы: повторение","два указателя, hash map, рекурсия, деревья, BFS/DFS",["nc","lc"],"3 задачи на деревья и 2 на графы руками. Объясни решения вслух, как на интервью."]],
+p:["Проект «Агрегатор»: async-сбор данных из нескольких API → единый отчёт, retry, лимит параллелизма.","Доделай и протестируй (pytest-asyncio). Итог этапа 1: README, типы, тесты. Оцени свои пробелы."]},
+{s:"Этап 2 · Классический backend",t:"HTTP, REST и первое FastAPI-приложение",g:"Понять, как устроен веб, и написать первый API с нуля.",
+d:[["HTTP изнутри","методы, статус-коды, заголовки, cookies, DNS, TLS, curl",["mdn","rm"],"Исследуй запросы curl -v и DevTools Network к 3 сайтам, опиши заголовки в заметках."],
+["REST-принципы","ресурсы, идемпотентность, версионирование, пагинация, ошибки",["mdn","fa"],"Спроектируй на бумаге API для задач (Task): URL, методы, статусы, тела запросов."],
+["FastAPI: роутинг","path/query параметры, request body, response_model, uvicorn, /docs",["fa","pyd"],"CRUD задач в памяти (dict). Запусти, проверь через Swagger и curl."],
+["ASGI и async","uvicorn, async def vs def, Starlette, lifespan",["fa","aio"],"Добавь async-эндпоинт, вызывающий внешний API через httpx."],
+["Обработка ошибок и middleware","HTTPException, exception handlers, middleware, CORS, логирование запросов",["fa","mdn"],"Свой middleware логирует метод, путь, время. Единый формат ошибок."]],
+p:["API «Задачи» (in-memory): CRUD, фильтры, пагинация. Всё руками.","Структура проекта: routers/, schemas/, services/. README, запросы в .http-файле."]},
+{s:"Этап 2 · Классический backend",t:"Pydantic, DI и структура проекта",g:"Строить чистый API со схемами, валидацией, зависимостями и настройками.",
+d:[["Pydantic v2: модели","BaseModel, Field, типы, валидаторы, model_dump",["pyd","typ"],"Модели User, Task с валидаторами (email, длина, enum статусов). Тесты на невалидные данные."],
+["Pydantic Settings","BaseSettings, .env, окружения dev/prod",["pyd","f12"],"Вынеси конфиг приложения в Settings, секреты только из env."],
+["Dependency Injection","Depends, зависимости с yield, подзависимости, scopes",["fa"],"Зависимость get_current_settings и get_pagination. Замени зависимость в тесте через override."],
+["Слои приложения","router → service → repository, DTO vs ORM-модели",["rm","rp"],"Раздели код по слоям: бизнес-логика не знает про FastAPI."],
+["Документация и версионирование","OpenAPI, теги, примеры, /api/v1",["fa"],"Улучши OpenAPI: описания, примеры, теги, версия v1."]],
+p:["Проект «Task Manager API»: слои, схемы, DI, настройки. Пока in-memory.","Покрой тестами (TestClient) основные сценарии, ≥15 тестов."]},
+{s:"Этап 2 · Классический backend",t:"PostgreSQL: чистый SQL",g:"Писать запросы руками и понимать реляционную модель.",
+d:[["Установка, схема, DDL","Docker postgres, psql, типы, PK/FK, constraints, CREATE TABLE",["pg","dock"],"Подними Postgres в Docker, создай схему для магазина (users, products, orders, order_items)."],
+["SELECT, WHERE, ORDER, LIMIT","фильтрация, LIKE, IN, NULL, DISTINCT",["pgex","sqlex"],"20 задач на pgexercises.com/SQL-EX без подглядывания."],
+["JOIN","INNER/LEFT/RIGHT, self join, подзапросы, EXISTS",["pgex","pg"],"15 задач на JOIN + составь свои запросы к магазину."],
+["GROUP BY и агрегаты","COUNT/SUM/AVG, HAVING, CASE, даты",["pgex","sqlex"],"Отчёты: выручка по месяцам, топ-5 покупателей, средний чек."],
+["CTE и оконные функции","WITH, ROW_NUMBER, RANK, LAG/LEAD, PARTITION BY",["pg","pgex"],"10 запросов с оконными функциями: топ товаров в категории, накопительная сумма."]],
+p:["Спроектируй схему «магазин» (ER-диаграмма), напиши seed-скрипт на 10к+ записей через Python (psycopg).","Сделай 15 аналитических запросов к своей БД и сохрани в queries.sql с комментариями."]},
+{s:"Этап 2 · Классический backend",t:"Индексы, транзакции, нормализация",g:"Понимать, почему запрос медленный и как гарантируется целостность данных.",
+d:[["Нормализация","1NF–3NF, связи 1:N, N:M, денормализация",["pg","rm"],"Нормализуй «плохую» таблицу заказов, обоснуй каждое решение письменно."],
+["Индексы","B-tree, составные, partial, GIN, когда индекс не помогает",["pg"],"Создай таблицу на 1М строк, замерь запрос до/после индекса."],
+["EXPLAIN ANALYZE","Seq Scan vs Index Scan, стоимость, JOIN-стратегии",["pg"],"Разбери планы 5 своих запросов, оптимизируй самый медленный."],
+["Транзакции и ACID","BEGIN/COMMIT/ROLLBACK, уровни изоляции, deadlock, SELECT FOR UPDATE",["pg"],"Воспроизведи гонку (двойное списание) в двух psql-сессиях и исправь её."],
+["psycopg и пулы","psycopg3, параметры (SQL-injection), пул соединений",["pg","owasp"],"Напиши обёртку над psycopg: подключение, транзакция через контекстный менеджер."]],
+p:["Нагрузочный эксперимент: 1М строк, замеры индексов, документ с выводами (таблица «до/после»).","Перенеси задачи Task Manager в Postgres на чистом SQL через psycopg (без ORM). Сравни с in-memory."]},
+{s:"Этап 2 · Классический backend",t:"SQLAlchemy 2.0 и Alembic",g:"Подключить ORM, версионировать схему и сохранить контроль над SQL.",
+d:[["SQLAlchemy Core и ORM","Engine, Session, Mapped, relationship, select()",["sqla"],"Опиши модели магазина через ORM, повтори 5 запросов из прошлых недель."],
+["Связи и загрузка","one-to-many, many-to-many, lazy/selectin/joined, N+1",["sqla"],"Воспроизведи N+1, увидь в логах SQL, исправь selectinload."],
+["Async SQLAlchemy","AsyncSession, asyncpg, lifespan, session per request",["sqla","fa"],"Подключи AsyncSession к FastAPI через Depends."],
+["Alembic","revision --autogenerate, upgrade/downgrade, data migration",["alem"],"Создай 3 миграции (таблица, колонка, индекс), откати и накати. Проверь автоген."],
+["Паттерн Repository и Unit of Work","изоляция БД, транзакции в сервисе",["rp","sqla"],"Вынеси доступ к данным в репозитории, сервис управляет транзакцией."]],
+p:["Task Manager API → PostgreSQL + async SQLAlchemy + Alembic. Модели User, Task, Tag.","Фильтры, пагинация, сортировка, include-связей. Проверь SQL через echo=True."]},
+{s:"Этап 2 · Классический backend",t:"Аутентификация и безопасность",g:"Реализовать регистрацию, логин, JWT и роли без готовых «магических» библиотек.",
+d:[["Хеширование паролей","bcrypt/argon2, соль, timing-атаки",["owasp","pylib"],"Реализуй регистрацию с argon2/bcrypt. Объясни, почему не SHA256."],
+["JWT","header.payload.signature, exp, claims, HS256/RS256",["jwt"],"Сгенерируй и расшифруй JWT руками (base64) и через pyjwt. Проверь подпись и exp."],
+["OAuth2 password flow в FastAPI","OAuth2PasswordBearer, get_current_user, /login, Authorize в Swagger",["fa"],"Реализуй /auth/register, /auth/login, /me. Защити эндпоинты задач."],
+["Refresh-токены и роли","access/refresh, ротация, logout, RBAC, права на ресурсы",["jwt","owasp"],"Добавь refresh-токены и роль admin. Пользователь видит только свои задачи."],
+["OWASP Top 10","инъекции, broken access control, rate limit, CORS, секреты",["owasp"],"Составь чек-лист и проверь свой API: SQL-инъекции, IDOR, утечки в логах."]],
+p:["Полноценная auth-система в Task Manager: регистрация, логин, refresh, роли, тесты.","Тесты безопасности: чужие ресурсы, истёкший токен, неверная подпись. Обнови README."]},
+{s:"Этап 2 · Классический backend",t:"Redis, кэш, фоновые задачи",g:"Использовать Redis для кэша, лимитов и очередей, понимать компромиссы.",
+d:[["Redis: структуры данных","strings, hash, list, set, zset, TTL, redis-cli",["redis"],"Поиграй в redis-cli: счётчики, очередь на list, рейтинг на zset."],
+["Кэширование","cache-aside, TTL, инвалидация, cache stampede",["redis","rm"],"Закэшируй тяжёлый эндпоинт, измерь ускорение, продумай инвалидацию."],
+["Rate limiting и сессии","fixed window, sliding window, INCR+EXPIRE",["redis"],"Реализуй rate limit как зависимость FastAPI (на Redis)."],
+["Фоновые задачи","BackgroundTasks, arq/Celery, очереди, retry, идемпотентность",["fa","redis"],"Отправка «email» (имитация) через arq-воркера, с retry."],
+["Pub/Sub и потоковые ответы","Redis pub/sub, SSE, WebSocket в FastAPI",["fa","redis"],"Реализуй SSE-эндпоинт со стримом событий (пригодится для LLM)."]],
+p:["Добавь в проект Redis: кэш, rate limit, фоновые задачи. Метрики до/после.","Напиши нагрузочный тест (locust/hey), сравни с кэшем и без."]},
+{s:"Этап 2 · Классический backend",t:"Docker, тесты, CI — финал этапа 2",g:"Упаковать backend в контейнеры, покрыть тестами и настроить CI.",
+d:[["Docker","образы, слои, Dockerfile, multi-stage, .dockerignore, volumes",["dock","f12"],"Dockerfile для API (multi-stage, непривилегированный пользователь)."],
+["Docker Compose","services, networks, healthcheck, depends_on, env",["dock"],"docker-compose: api + postgres + redis + worker, одной командой."],
+["pytest для API","fixtures БД, транзакционные тесты, httpx.AsyncClient, фабрики",["pt","fa"],"Тестовая БД, override зависимостей, ≥30 тестов, покрытие ≥80%."],
+["CI на GitHub Actions","workflow, matrix, кэш, ruff+mypy+pytest",["gha"],"Workflow: линтеры, типы, тесты с Postgres-сервисом."],
+["Ревью и рефакторинг","чистый код, логирование, обработка ошибок, документация",["rm","f12"],"Проведи ревью собственного проекта по чек-листу, исправь 10 замечаний."]],
+p:["Финализируй «Task Manager API»: docker-compose, CI, README со схемой, Swagger, миграциями.","Запиши Loom/GIF-демо, опиши архитектурные решения (ADR на 1 странице). Мини-аудит знаний этапа 2."]},
+{s:"Этап 3 · AI Engineering",t:"LLM API: основы",g:"Понимать, как устроены вызовы LLM, токены, стриминг и параметры.",
+d:[["Как работают LLM","токены, контекстное окно, temperature, top_p, stop, галлюцинации",["oai","ant"],"Токенизируй тексты (tiktoken), оцени стоимость запроса на бумаге."],
+["Первый запрос","messages, roles, system/user/assistant, API-ключ, SDK",["oai","ant","orr"],"Скрипт: вызови модель через OpenAI SDK, затем Anthropic SDK, затем OpenRouter. Без фреймворков."],
+["Стриминг и async","stream=True, SSE, async SDK, таймауты, retry",["oai","ant"],"CLI-чат со стримингом и историей диалога (скользящее окно)."],
+["Ошибки и лимиты","429, rate limits, backoff, fallback-модели, стоимость",["orr","oai"],"Обёртка с retry, exponential backoff и fallback на другую модель."],
+["LLM-эндпоинт в FastAPI","POST /chat, SSE-стриминг, ключи в env, логирование usage",["fa","oai"],"Эндпоинт /chat со стримом поверх своего FastAPI, лог токенов в БД."]],
+p:["Проект «LLM-gateway»: FastAPI-сервис, единый интерфейс к 2–3 провайдерам, учёт токенов и стоимости.","Добавь аутентификацию из этапа 2, лимиты на пользователя (Redis), тесты с моками LLM."]},
+{s:"Этап 3 · AI Engineering",t:"Промпт-инжиниринг",g:"Писать устойчивые промпты и версионировать их как код.",
+d:[["Структура промпта","роль, контекст, задача, формат, ограничения, примеры",["pe","ant"],"Напиши 5 промптов для одной задачи (классификация обращений), сравни на 20 примерах."],
+["Few-shot и CoT","примеры, рассуждение, self-consistency",["pe"],"A/B: zero-shot vs few-shot vs CoT на 30 кейсах, таблица результатов."],
+["Системные промпты и роли","ограничения, тон, отказы, защита от инъекций",["ant","owasp"],"Системный промпт саппорт-бота + 10 атак (prompt injection). Зафиксируй, что сломалось."],
+["Шаблоны и версионирование","Jinja2, промпты в файлах, версии, переменные",["pe"],"Вынеси промпты в prompts/*.j2 с версиями и загрузчиком."],
+["Контекст-инжиниринг","что класть в контекст, сжатие истории, summary",["ant","cc"],"Реализуй суммаризацию длинной истории диалога при превышении лимита."]],
+p:["Проект «Классификатор обращений»: набор данных на 100 примеров, 3 версии промптов, метрики accuracy.","Отчёт: что улучшило качество, где ошибки. Положи в репозиторий как evals-первый-проход."]},
+{s:"Этап 3 · AI Engineering",t:"Structured Outputs",g:"Получать от LLM надёжный структурированный результат и валидировать его.",
+d:[["JSON и схемы","JSON Schema, response_format, strict mode",["oai","pyd"],"Вызови модель с json_schema, разбери ответ руками."],
+["Pydantic + LLM","parse(), model_validate_json, вложенные модели, enum",["pyd","oai"],"Извлечение данных из резюме/счетов в Pydantic-модель."],
+["Валидация и retry","ошибки парсинга, повтор с подсказкой об ошибке, instructor",["pyd","ant"],"Цикл «validate → feed error back → retry» без библиотек."],
+["Tool/Function calling: основы","описание функции, аргументы, tool_calls, результат tool",["antt","oai"],"Одна функция get_weather: цикл «модель → вызов → результат → ответ» руками."],
+["Извлечение информации","NER, классификация, нормализация, confidence",["pe","pyd"],"Эндпоинт /extract: текст → JSON по схеме, тесты на 15 примерах."]],
+p:["Проект «Парсер документов»: загрузка PDF/текста → структурированный JSON, сохранение в Postgres.","Метрики точности по полям на размеченных 30 документах. Обработка ошибок и повторов."]},
+{s:"Этап 3 · AI Engineering",t:"Эмбеддинги, чанкинг, векторные БД",g:"Понимать семантический поиск и уметь строить векторный индекс.",
+d:[["Эмбеддинги","векторы, cosine similarity, размерность, модели эмбеддингов",["oai","qd"],"Посчитай эмбеддинги 50 фраз и найди ближайшие руками на numpy (без БД)."],
+["Чанкинг","размер, overlap, по абзацам/заголовкам, markdown-aware",["lc2","qd"],"Реализуй 3 стратегии чанкинга, сравни на одном документе."],
+["pgvector","extension, vector-тип, HNSW/IVFFlat, <=> оператор",["pgv","pg"],"Добавь pgvector в compose, создай таблицу chunks и поиск top-k на SQL."],
+["Qdrant","коллекции, points, payload, фильтры, distance",["qd"],"Подними Qdrant, загрузи чанки, поиск с фильтром по metadata."],
+["Ингестия документов","парсинг PDF/MD/HTML, очистка, метаданные, дедупликация",["lc2","pylib"],"Скрипт ingest.py: папка документов → чанки → эмбеддинги → БД, идемпотентно."]],
+p:["Проект «Семантический поиск по документации»: ingest + API /search, сравнение pgvector и Qdrant.","Замерь latency и качество (recall@5 на 20 вопросах). Выводы в README."]},
+{s:"Этап 3 · AI Engineering",t:"RAG: базовый конвейер",g:"Собрать RAG руками, без «магических» цепочек, и понимать каждый шаг.",
+d:[["Архитектура RAG","retrieve → augment → generate, ограничения контекста",["lc2","ant"],"Нарисуй схему RAG от руки, пропиши, где что хранится и какие точки отказа."],
+["Retrieval","top-k, порог схожести, метаданные, пустые результаты",["qd","pgv"],"Функция retrieve(question) с порогом и фильтрами. Тесты."],
+["Генерация с контекстом","промпт с источниками, цитирование, «не знаю»",["pe","ant"],"Промпт, требующий ссылки на фрагменты [1][2] и отказ при нехватке данных."],
+["История диалога","переписывание вопроса с контекстом, память",["cc","lc2"],"Многошаговый чат: сначала rewrite запроса, потом retrieve."],
+["RAG как сервис","FastAPI, стриминг, источники в ответе, кэш",["fa","redis"],"Эндпоинт /ask: ответ + источники + usage, стриминг через SSE."]],
+p:["Проект «RAG по базе знаний» (документация FastAPI или твои конспекты): ingest, /ask, источники.","Собери набор из 30 вопросов-ответов (golden set) для оценки на следующей неделе."]},
+{s:"Этап 3 · AI Engineering",t:"Продвинутый RAG",g:"Повышать качество поиска: гибридный поиск, реранкинг, переписывание запросов.",
+d:[["Гибридный поиск","BM25 + векторы, RRF, tsvector в Postgres",["pg","qd"],"Реализуй гибрид: full-text Postgres + pgvector + reciprocal rank fusion."],
+["Реранкинг","cross-encoder, LLM-rerank, top-k → top-n",["qd","lc2"],"Добавь реранкинг и сравни recall@5 до/после на golden set."],
+["Query transformation","rewrite, multi-query, HyDE, decomposition",["lc2","pe"],"Multi-query retrieval: сравни метрики с базовым."],
+["Метаданные и структура","parent-child chunks, фильтры, иерархия документов",["qd"],"Parent-child чанки: ищи по маленьким, отдавай большой контекст."],
+["Типичные провалы RAG","разбор ошибок, плохие чанки, конфликт источников",["ragas","cc"],"Разбери 15 неверных ответов: тип ошибки (retrieval/generation), таблица причин."]],
+p:["Улучшай RAG-проект: гибрид + реранкинг + parent-child, фиксируй метрики после каждого изменения.","Журнал экспериментов (таблица): что менял, что изменилось. Это важный артефакт для резюме."]},
+{s:"Этап 3 · AI Engineering",t:"Агенты и Tool Calling",g:"Строить агентов с инструментами: сначала руками, затем в LangGraph.",
+d:[["Агентный цикл руками","ReAct, цикл tool_calls, ограничение шагов, остановка",["cc","antt"],"Напиши агента без фреймворка: 3 инструмента (калькулятор, поиск по RAG, чтение файла)."],
+["Tool design","схемы, описания, ошибки инструментов, идемпотентность, права",["antt","oai"],"Инструмент «SQL read-only» с белым списком таблиц и защитой от инъекций."],
+["LangChain основы","Runnable, prompt|model|parser, tools, retrievers",["lc2"],"Повтори свой RAG через LangChain и сравни объём кода и контроль."],
+["LangGraph","State, nodes, edges, conditional edges, checkpointer",["lg"],"Граф: classify → (rag | db | handoff) → answer. Добавь checkpoint памяти."],
+["Human-in-the-loop и безопасность","подтверждение действий, лимиты, prompt injection через tools",["lg","owasp"],"Действие «создать тикет» требует подтверждения; тест на инъекцию через документы."]],
+p:["Проект «Агент поддержки v0»: RAG + SQL-tool + тикет-tool на LangGraph, FastAPI-эндпоинт.","Логирование шагов агента в БД (trace), защита от бесконечных циклов, тесты."]},
+{s:"Этап 3 · AI Engineering",t:"Evaluation и мониторинг",g:"Измерять качество и стоимость LLM-систем, а не «на глаз».",
+d:[["Метрики качества","accuracy, faithfulness, answer relevance, recall@k, MRR",["ragas"],"Посчитай retrieval-метрики руками на golden set из 30 вопросов."],
+["LLM-as-a-judge","промпт судьи, критерии, bias, калибровка",["ragas","pe"],"Судья для ответов RAG, сверь с ручной разметкой 20 примеров."],
+["Ragas и автоматические eval","faithfulness, context precision, прогон в CI",["ragas","gha"],"Eval-скрипт, который падает в CI при просадке метрик."],
+["Observability","Langfuse, трейсы, токены, latency, стоимость",["lf"],"Подключи Langfuse, найди самый дорогой шаг в агенте."],
+["Оптимизация и guardrails","кэш, меньшая модель, батчинг, фильтры вход/выход, PII",["oai","owasp"],"Снизь стоимость запроса ≥30% без потери качества (докажи метриками)."]],
+p:["Eval-пайплайн для агента: golden set 50+ вопросов, отчёт метрик, прогон в CI.","Дашборд стоимости/латентности (Langfuse или таблица в БД). Итог этапа 3: ретроспектива."]},
+{s:"Этап 4 · Коммерческий проект",t:"Архитектура AI-ассистента поддержки",g:"Спроектировать и заложить фундамент финального проекта, как реальный заказчик.",
+d:[["Требования и scope","user stories, MVP, нефункциональные требования",["rm","f12"],"Напиши ТЗ на 1–2 страницы: роли, сценарии, метрики успеха, ограничения."],
+["Архитектура и схема БД","компоненты, поток данных, схема, ER-диаграмма",["rm","pg"],"Диаграмма (draw.io/Mermaid) + схема БД: users, tenants, tickets, orders, chunks, conversations."],
+["Каркас проекта","структура, настройки, compose, миграции, CI",["fa","dock","gha"],"Сделай скелет с health-эндпоинтом, compose, CI, первой миграцией."],
+["Auth и мультитенантность","JWT, роли (клиент/оператор/админ), изоляция данных",["jwt","owasp"],"Реализуй auth + роли + изоляцию данных по tenant_id, тесты."],
+["Домен: заказы и тикеты","CRUD, сервисы, фикстуры данных",["sqla","alem"],"API заказов и тикетов, генератор тестовых данных (Faker)."]],
+p:["Ядро backend: auth, заказы, тикеты, документы базы знаний, загрузка и ингестия (PDF/MD).","Покрой тестами ядро (≥70%), оформи Swagger. Вечером — ревью и мини-демо себе."]},
+{s:"Этап 4 · Коммерческий проект",t:"RAG + Function Calling в проекте",g:"Подключить RAG и безопасный доступ к БД через tools, довести UX до демо.",
+d:[["RAG-модуль","ingest, hybrid search, реранкинг, источники",["qd","pgv"],"Подключи свой RAG-модуль из этапа 3, изолируй по tenant, добавь ссылки на источники."],
+["Tools для БД","get_order_status, list_orders, create_ticket, права, аудит",["antt","lg"],"Инструменты с проверкой прав пользователя и логом вызовов; read-only по умолчанию."],
+["Оркестрация агента","LangGraph: классификация → RAG/tool/handoff → ответ",["lg","cc"],"Граф с ограничением шагов, fallback «передать оператору», чекпоинты."],
+["Стриминг и чат-интерфейс","SSE, история диалогов, простая страница на HTML/JS",["fa","mdn"],"Минимальный фронт на HTML/JS (знаешь верстку): чат, стрим, источники."],
+["Безопасность агента","prompt injection, утечки PII, лимиты, rate limit",["owasp","redis"],"10 атак на агента (в т.ч. «покажи заказы другого клиента»), добейся отказа."]],
+p:["Собери всё: чат → агент → RAG/tools → ответ со ссылками. Сквозной сценарий работает локально.","Eval-набор 50+ диалогов, прогон, список провалов и исправление топ-5."]},
+{s:"Этап 4 · Коммерческий проект",t:"Тесты, eval и деплой на VPS",g:"Довести проект до production-вида и выкатить его в интернет.",
+d:[["Тесты и eval в CI","unit, интеграционные, eval-гейт, моки LLM",["pt","ragas"],"Закрой тестами критические пути, eval в CI, badge в README."],
+["VPS и сервер","покупка VPS, SSH-ключи, ufw, fail2ban, пользователи",["lj","owasp"],"Подними VPS (Hetzner/DigitalOcean/любой), закрой пароль по SSH, настрой ufw."],
+["Docker на сервере","compose prod, секреты, healthcheck, volumes, бэкапы БД",["dock","f12"],"Задеплой compose на VPS, настрой pg_dump по cron."],
+["Домен, HTTPS, reverse proxy","Caddy/Nginx, Let’s Encrypt, CORS",["f12"],"Привяжи домен (или поддомен), включи HTTPS через Caddy/Nginx."],
+["CI/CD и мониторинг","деплой по push, логи, uptime, алерты, Langfuse",["gha","lf"],"GitHub Actions: build → push → ssh deploy. Подключи UptimeRobot и логи."]],
+p:["Production-выкатка: домен, HTTPS, мониторинг, бэкап. Проверь все сценарии «глазами клиента».","Нагрузочный тест (locust), оптимизация узких мест, финальные eval-метрики для резюме."]},
+{s:"Этап 4 · Упаковка и офферы",t:"GitHub, резюме, лайвкодинг и отклики",g:"Превратить проекты в офферы: репозитории, резюме, интервью и отклики.",
+d:[["GitHub-портфолио","README с архитектурой, GIF-демо, закреплённые репозитории",["rm"],"Для главного проекта: README (проблема, архитектура, стек, метрики, запуск за 3 команды), Mermaid-схема."],
+["Резюме и профиль","метрики в буллетах, стек, hh.ru, LinkedIn, Telegram-каналы",["rm"],"Резюме на 1 страницу (RU + EN), профили hh.ru/LinkedIn. Каждая строка — результат, а не «изучал»."],
+["Лайвкодинг: Python","структуры данных, строки, словари, рекурсия, 30–40 мин на задачу",["lc","nc"],"2 задачи на время с проговариванием вслух: без IDE-подсказок и ИИ."],
+["Теория интервью","Python внутри, async, SQL, HTTP, Docker, RAG/LLM",["fl","rm"],"Составь 40 вопросов и отвечай вслух; запиши голос, найди пробелы."],
+["Отклики и system design","рассказ об архитектуре, hh.ru, LinkedIn, Telegram-каналы, remote-площадки",["cc","rm"],"Расскажи архитектуру проекта за 7 минут, подготовь «рассказ о себе» (RU/EN) и отправь 10 откликов с адаптацией резюме. Веди таблицу откликов."]],
+p:["Mock-интервью (с другом, наставником или платформой): 1 час лайвкодинга + 30 минут теории.","Тестовое задание на 4 часа в формате реального: backend + LLM-интеграция. Разбери ошибки, составь карту пробелов и план на следующие 12 недель, продолжай откликаться."]}
+];
+
+// ---------- материалы и правила ----------
+const MAT=[
+["Python",[["Python Tutorial (ru)",L.pyt[1]],["Stepik: Программирование на Python",L.st67[1]],["Stepik: Python — основы и применение",L.st512[1]],["Real Python",L.rp[1]],["Fluent Python, 2nd ed.",L.fl[1]],["Python Tutor",L.pyttr[1]]]],
+["Алгоритмы",[["NeetCode roadmap",L.nc[1]],["LeetCode",L.lc[1]],["Big-O cheat sheet",L.bigo[1]],["Grokking Algorithms (книга, ru есть)","https://www.manning.com/books/grokking-algorithms"]]],
+["Git, Linux, Docker",[["Pro Git (ru)",L.git[1]],["Learn Git Branching",L.lgb[1]],["Linux Journey",L.lj[1]],["Docker Get Started",L.dock[1]],["12 Factor App (ru)",L.f12[1]]]],
+["Backend, БД",[["FastAPI (ru)",L.fa[1]],["Pydantic v2",L.pyd[1]],["MDN: HTTP",L.mdn[1]],["PostgreSQL docs",L.pg[1]],["PG Exercises",L.pgex[1]],["SQL-EX (ru)",L.sqlex[1]],["SQLAlchemy 2.0",L.sqla[1]],["Alembic",L.alem[1]],["Redis docs",L.redis[1]],["pytest",L.pt[1]],["roadmap.sh/backend",L.rm[1]],["Designing Data-Intensive Applications (книга)","https://dataintensive.net/"]]],
+["AI Engineering",[["OpenAI API",L.oai[1]],["Anthropic docs",L.ant[1]],["Anthropic: Tool use",L.antt[1]],["OpenRouter",L.orr[1]],["Prompting Guide (ru)",L.pe[1]],["Building effective agents",L.cc[1]],["pgvector",L.pgv[1]],["Qdrant",L.qd[1]],["LangChain",L.lc2[1]],["LangGraph",L.lg[1]],["Ragas",L.ragas[1]],["Langfuse",L.lf[1]]]]
+];
+const RULES=[
+["Как вернуть забытое с нуля",["Каждый день начинай с 10-минутного разогрева: напиши по памяти 3 фрагмента из прошлых дней (без подсказок), потом сверься.","Не перечитывай, а вспоминай: закрой теорию и запиши, что помнишь, затем проверь пробелы.","Веди cheatsheet.md: синтаксис своими словами с мини-примерами. Это твоя личная шпаргалка.","Прежде чем запускать код, предскажи результат вслух. Расхождение с реальностью — точка роста.","Если тема не зашла, повтори её ещё день и только потом иди дальше. Первые недели лучше замедлить, чем бросить."]],
+["Правила против вайбкодинга",["Сначала пишешь сам, потом спрашиваешь ИИ. Минимум 20 минут своей попытки до любого вопроса.","ИИ — только как репетитор: проси подсказку, объяснение, ревью, но не готовый код. Фраза: «Не пиши код, объясни, где у меня ошибка».","Не копируй: пиши в редакторе руками, даже если смотришь пример.","Строки, которые не можешь объяснить, не попадают в коммит.","Дебаг по порядку: прочитать traceback → воспроизвести → гипотеза → print/логи/pdb → фикс. Только потом ИИ."]],
+["Как закреплять",["Объяснение вслух (метод утёнка): после каждой темы 2 минуты своими словами.","Конспект в своём репозитории notes/: 5 предложений + пример кода своими руками.","Повторение по расписанию: 1 день, 1 неделя, 1 месяц. Каждое воскресенье — 20 минут на возвращение к старому.","Раз в 2 недели: перепиши с нуля мини-задачу из старой темы без подсказок.","Не переходи к следующей теме, пока не решишь задачу без подглядывания."]],
+["Режим и дисциплина",["Фиксированное время: например, 19:00–21:00 по будням. Телефон в другой комнате.","Если пропустил день — не наверстывай «двойным» объёмом, просто продолжи. Недели важнее серий.","Коммит каждый учебный день — видимый прогресс и привычка.","Если неделя не усвоена, потрать на неё выходные, а не перескакивай.","Раз в 4 недели — ретроспектива: что понял, что нет, что поправить в плане."]],
+["Практика и портфолио",["Ориентир — 3 сильных проекта: Task Manager API, RAG-сервис, финальный AI-ассистент.","Каждый проект: README, тесты, Docker, CI, схема архитектуры, метрики.","Проси ревью: Telegram-чаты Python, Reddit, знакомые разработчики.","Рынок СНГ/remote: готовь английский (чтение документации ежедневно, self-intro за 2 минуты).","Отклики начинай уже с 20-й недели: практика собеседований важнее «идеальной подготовки»."]]
+];
+
+// ---------- логика ----------
+const KEY="py-ai-roadmap-v2";
+let st={};try{st=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+let cur=localStorage.getItem(KEY+"-tab")||"0";
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const days=["Пн","Вт","Ср","Чт","Пт"];
+const ids=w=>[...Array(5).keys()].flatMap(i=>["t","p"].map(k=>`${w}-${i}-${k}`)).concat([`${w}-s`,`${w}-u`]);
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const links=a=>`<div class="ln">${a.map(k=>`<a href="${L[k][1]}" target="_blank" rel="noopener">${L[k][0]}</a>`).join("")}</div>`;
+const item=(id,title,kw,ln)=>`<label class="item${st[id]?" done":""}"><input type="checkbox" data-id="${id}"${st[id]?" checked":""}><div><div class="tt">${esc(title)}</div>${kw?`<div class="kw">${esc(kw)}</div>`:""}${ln||""}</div></label>`;
+const cnt=w=>ids(w).filter(i=>st[i]).length;
+const TOTAL=W.length*12;
+const HOURS=W.length*18;
+document.getElementById("lead").textContent=`Режим: 2 часа в будни (1 ч теории + 1 ч практики руками) и 2 × 4 часа на пет-проект в выходные. ${W.length} недель, примерно ${HOURS} часов (18 ч в неделю). Первые 3 недели — медленное повторение базы с нуля. Практика пишется самостоятельно, ИИ — только как репетитор.`;
+
+function nav(){
+ const n=document.getElementById("nav");
+ n.innerHTML=W.map((w,i)=>`<button class="tab${cur==i?" on":""}" data-tab="${i}" title="${esc(w.t)}">Неделя ${i+1}<span>${cnt(i)}/12</span></button>`).join("")
+ +`<button class="tab sep${cur=="m"?" on":""}" data-tab="m">База материалов</button><button class="tab${cur=="r"?" on":""}" data-tab="r">Правила обучения</button>`;
+}
+function prog(){
+ const done=W.reduce((s,_,i)=>s+cnt(i),0),pc=Math.round(done/TOTAL*100);
+ document.getElementById("ptxt").innerHTML=`<b>Общий прогресс:</b> ${done} из ${TOTAL} · ${pc}%`;
+ document.getElementById("pbar").style.width=pc+"%";
+}
+function view(){
+ const m=document.getElementById("main");
+ if(cur=="m"){m.innerHTML=MAT.map(([h,a])=>`<div class="sec"><h3>${h}</h3><ul>${a.map(([t,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${t}</a></li>`).join("")}</ul></div>`).join("");return}
+ if(cur=="r"){m.innerHTML=RULES.map(([h,a])=>`<div class="sec"><h3>${h}</h3><ul>${a.map(t=>`<li>${t}</li>`).join("")}</ul></div>`).join("");return}
+ const i=+cur,w=W[i];
+ let h=`<div class="stage">${w.s}</div><h2>Неделя ${i+1}: ${esc(w.t)}</h2><p class="goal"><b>Цель:</b> ${esc(w.g)}</p><div class="card"><div class="row hd"><div>День</div><div>Теория — 1 ч</div><div>Практика — 1 ч</div></div>`;
+ w.d.forEach((d,j)=>{h+=`<div class="row"><div class="day">${days[j]}<small>2 ч</small></div><div>${item(`${i}-${j}-t`,d[0],d[1],links(d[2]))}</div><div>${item(`${i}-${j}-p`,"Задание",d[3])}</div></div>`});
+ h+=`<div class="row proj"><div class="day">Сб<small>4 ч · проект</small></div><div>${item(i+"-s","Проект",w.p[0])}</div></div><div class="row proj"><div class="day">Вс<small>4 ч · проект</small></div><div>${item(i+"-u","Проект",w.p[1])}</div></div></div>`;
+ m.innerHTML=h;
+}
+function all(){nav();prog();view()}
+document.getElementById("nav").onclick=e=>{const b=e.target.closest(".tab");if(!b)return;cur=b.dataset.tab;try{localStorage.setItem(KEY+"-tab",cur)}catch(x){}all();scrollTo(0,0)};
+document.getElementById("main").onchange=e=>{const c=e.target;if(!c.dataset.id)return;st[c.dataset.id]=c.checked;if(!c.checked)delete st[c.dataset.id];save();c.closest(".item").classList.toggle("done",c.checked);nav();prog()};
+document.getElementById("rst").onclick=()=>{if(confirm("Сбросить все отметки?")){st={};save();all()}};
+all();
+</script>
+</body>
+</html>
